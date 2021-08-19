@@ -8,11 +8,56 @@
     <title>Dia 3</title>
   </head>
   <body>
-    <form action="submit" data-js="form">
-      <label for="name">Nome:</label>
-      <input type="text" name="name" data-js="name" value="">
-      <br/><br />
+    <form data-js="form">
+      <input type="text" name="name" data-js="name" class="name">
+      <label for="name">Nome</label>
     </form>
+    <br/><br/>
+
+    <form data-js="formCars" method="POST">
+      <input placeholder="http://exemplo.com" type="url" name="url" data-js="url">
+      <label for="url">Imagem</label>
+      <br/> <br/>
+
+      <input type="text" name="model">
+      <label for="model">Marca/ Modelo</label>
+      <br /> <br />
+
+      <input placeholder="2021" type="number" name="year">
+      <label for="year">Ano</label>
+      <br /> <br />
+
+      <input placeholder="XXX-XXXX" type="text" name="plate-car">
+      <label for="plate-car">Placa</label>
+      <br /> <br />
+
+      <input type="text" name="color-car">
+      <label for="color-car">Cor</label>
+      <br /> <br />
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Imagem</th>
+          <th>Marca/ Modelo</th>
+          <th>Ano</th>
+          <th>Placa</th>
+          <th>Cor</th>
+        </tr>
+      </thead>
+      <tbody data-js="list-cars">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

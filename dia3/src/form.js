@@ -5,8 +5,8 @@ const newSelect = document.createElement('select')
 inputName.addEventListener('input', (event) => {
   const regexFirstLetter = /(\b[a-z](?!\s))/g;
   const regexLowerCaseD = /(\bD)[a|o|e]s?\s/g;
-  const upperCaseFirstletter = (letter) => { return letter.toUpperCase()}
-  const lowerCaseFirstletter = (letter) => { return letter.toLowerCase()}
+  const upperCaseFirstletter = (letter) => { return letter.toUpperCase() }
+  const lowerCaseFirstletter = (letter) => { return letter.toLowerCase() }
   const newValue = String(event.target.value)
   .replace(regexFirstLetter, upperCaseFirstletter)
   .replace(regexLowerCaseD, lowerCaseFirstletter)
@@ -50,7 +50,7 @@ colors.forEach((color) => {
 
 selectColor.addEventListener('change', (event) => {
   const colorsSelected = [...event.target.selectedOptions].map((color) => color.value)
-  const test = colorsSelected.map((color) => {
+  colorsSelected.map((color) => {
     const divColor = document.querySelector(`[data-js="${color}"]`)
     divColor.toggleAttribute('hidden')
   })
