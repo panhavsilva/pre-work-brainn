@@ -6,3 +6,37 @@
   color: #2c3e50;
   margin-top: 60px;
 }
+
+select.select-colors {
+  width: 150px;
+  height: 100px;
+}
+div.div-colors {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 30px;
+  margin: 30px;
+}
+
+div.div-color {
+  width: 100%;
+  height: 150px;
+  border: solid 1px rgb(59, 59, 59);
+  cursor: pointer;
+}
+
+div.div-color.black {
+  background-color: #000;
+}
+div.div-color.white {
+  background-color: #fff;
+}
+div.div-color.yellow {
+  background-color: #ffff00;
+}
+div.div-color.red {
+  background-color: #ff0000;
+}
+div.div-color.pink {
+  background-color: #ff1493;
+}
