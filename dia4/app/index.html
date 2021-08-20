@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dia 4</title>
+  </head>
+  <body>
+    <form data-js="cars-form" method="POST">
+      <input placeholder="http://exemplo.com" type="url" name="url" data-js="url">
+      <label for="url">Imagem</label>
+      <br /> <br />
+
+      <input type="text" name="model">
+      <label for="model">Marca/ Modelo</label>
+      <br /> <br />
+
+      <input placeholder="2021" type="number" name="year">
+      <label for="year">Ano</label>
+      <br /> <br />
+
+      <input placeholder="XXX-XXXX" type="text" name="plate-car">
+      <label for="plate-car">Placa</label>
+      <br /> <br />
+
+      <input type="color" name="color-car">
+      <label for="color-car">Cor</label>
+      <br /> <br />
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Imagem</th>
+          <th>Marca / Modelo</th>
+          <th>Ano</th>
+          <th>Placa</th>
+          <th>Cor</th>
+        </tr>
+      </thead>
+      <tbody data-js="cars-list">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
