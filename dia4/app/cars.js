@@ -1,5 +1,6 @@
 const carsForm = document.querySelector('[data-js="cars-form"]')
 const carsList = document.querySelector('[data-js="cars-list"]')
+import {get, post} from './http'
 const url = 'http://localhost:3333/cars'
 
 const carUndefined ={
@@ -11,9 +12,7 @@ const carUndefined ={
 }
 
 async function listCars(url) {
-  const result = await fetch(url)
-    .then((result) => result.json())
-    .catch((err) => ({ erro: true, message: err.message }))
+  const result = await get(url)
 
   if (result.erro) {
     console.log('Erro ao listar os carros!', result.message)
@@ -27,18 +26,15 @@ async function listCars(url) {
 
   return result.length === 0
     ? createRow(carUndefined)
-    : result.forEach(element => createRow(element));
+    : result.forEach((element) => createRow(element));
 }
 
-async function createCar (url, item) {
-  const result = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify(item)
-  })
-
+async function createCar (url, data) {
+  const result = await post(url, data)
+  if (result.erro) {
+    console.log('Erro ao listar os carros!', result.message)
+    return
+  }
   return result
 }
 
@@ -48,14 +44,32 @@ const createItem = (value) => {
   return newTd
 }
 
+function createButton (plate) {
+  const newTd = document.createElement('td')
+  const newButton = document.createElement('button')
+  newButton.setAttribute('data-js', plate)
+  newButton.textContent = 'Excluir'
+  newButton.addEventListener('click', (event) => {
+    const tr = document.querySelector(`tr[data-plate="${plate}"]`)
+    carsList.removeChild(tr)
+  })
+  newTd.appendChild(newButton)
+  return newTd
+}
+
 const createRow = (value) => {
   const newTr = document.createElement('tr')
+  newTr.setAttribute('data-plate', value.plate)
+  newTr.setAttribute('data-js', 'car')
+
   newTr.appendChild(createItem(value.image))
   newTr.appendChild(createItem(value.brandModel))
   newTr.appendChild(createItem(value.year))
   newTr.appendChild(createItem(value.plate))
   newTr.appendChild(createItem(value.color))
-  newTr.setAttribute('data-js', 'car')
+
+  newTr.appendChild(createButton(value.plate))
+
   return carsList.appendChild(newTr)
 }
 
