@@ -1,6 +1,4 @@
-const form = document.querySelector('[data-js="form"]')
 const inputName = document.querySelector('[data-js="name"]')
-const newSelect = document.createElement('select')
 
 inputName.addEventListener('input', (event) => {
   const regexFirstLetter = /(\b[a-z](?!\s))/g;
@@ -14,44 +12,42 @@ inputName.addEventListener('input', (event) => {
   event.target.value = newValue
 }, false)
 
-newSelect.setAttribute("data-js", "select-colors")
-newSelect.setAttribute("multiple", "")
-newSelect.className = 'select-colors'
-form.appendChild(newSelect)
-
-const selectColor = document.querySelector('[data-js="select-colors"]')
 const colors = [
-  { name: 'Preto', color: 'black'},
-  { name: 'Branco', color: 'white'},
-  { name: 'Amarelo', color: 'yellow'},
-  { name: 'Vermelho', color: 'red' },
-  { name: 'Rosa', color: 'pink' },
+  { name: 'Preto', color: '#000000' },
+  { name: 'Branco', color: '#ffffff' },
+  { name: 'Amarelo', color: '#ffff00' },
+  { name: 'Vermelho', color: '#ff0000' },
+  { name: 'Rosa', color: '#ff1493' },
 ]
+const form = document.querySelector('[data-js="form"]')
+const newSelect = document.createElement('select')
+form.insertAdjacentHTML(
+  'afterend',
+  '<div data-js="div-colors" class="div-colors"></div>'
+)
+const divColors = document.querySelector('[data-js=div-colors]')
+
 colors.forEach((color) => {
   const newOption = document.createElement('option')
   newOption.value = color.color
   newOption.text = color.name
   newOption.setAttribute("data-js", "color")
-  selectColor.appendChild(newOption)
+  newSelect.appendChild(newOption)
 })
 
-selectColor.insertAdjacentHTML(
-  'afterend',
-  '<div data-js="div-colors" class="div-colors"></div>'
-)
+newSelect.addEventListener('change', (event) => {
+  divColors.innerHTML = ''
 
-const divColors = document.querySelector('[data-js=div-colors]')
-colors.forEach((color) => {
-  const newDiv = document.createElement('div')
-  newDiv.className = `div-color ${color.color}`
-  newDiv.setAttribute("data-js", `${color.color}`)
-  divColors.appendChild(newDiv)
-})
-
-selectColor.addEventListener('change', (event) => {
   const colorsSelected = [...event.target.selectedOptions].map((color) => color.value)
   colorsSelected.map((color) => {
-    const divColor = document.querySelector(`[data-js="${color}"]`)
-    divColor.toggleAttribute('hidden')
+    const newDiv = document.createElement('div')
+    newDiv.style.backgroundColor = color
+    newDiv.className = 'div-color'
+    divColors.appendChild(newDiv)
   })
 }, false)
+
+newSelect.setAttribute("multiple", "")
+newSelect.setAttribute("data-js", "select-colors")
+newSelect.className = 'select-colors'
+form.appendChild(newSelect)

@@ -1,30 +1,27 @@
-const formCars = document.querySelector('[data-js="formCars"]')
-const listCars = document.querySelector('[data-js="list-cars"]')
-const inputImage = document.querySelector('[data-js="url"]')
+const formCars = document.querySelector('[data-js="cars-form"]')
+const listCars = document.querySelector('[data-js="cars-list"]')
+
+const createTd = (event, item) => {
+  const newTd = document.createElement('td')
+  newTd.innerHTML = String(event.target.elements[item].value)
+  return newTd
+}
+
+const createTr = (event) => {
+  const newTr = document.createElement('tr')
+  newTr.appendChild(createTd(event, 'image'))
+  newTr.appendChild(createTd(event, 'brand-model'))
+  newTr.appendChild(createTd(event, 'year'))
+  newTr.appendChild(createTd(event, 'plate'))
+  newTr.appendChild(createTd(event, 'color-car'))
+  return newTr
+}
 
 formCars.addEventListener('submit', (event) => {
   event.preventDefault()
-  const urlImage = document.createElement('td')
-  urlImage.innerHTML =  String(event.target.elements.url.value)
-  const modelCar = document.createElement('td')
-  modelCar.innerHTML =  String(event.target.elements.model.value)
-  const yearCar = document.createElement('td')
-  yearCar.innerHTML =  String(event.target.elements.year.value)
-  const plateCar = document.createElement('td')
-  plateCar.innerHTML =  String(event.target.elements['plate-car'].value)
-  const colorCar = document.createElement('td')
-  colorCar.innerHTML =  String(event.target.elements['color-car'].value)
 
-  const newCarLine = document.createElement('tr')
-  newCarLine.setAttribute("data-js", "new-car")
-  listCars.appendChild(newCarLine)
-  const newCar = document.querySelector('[data-js="new-car"]:last-child')
-  newCar.appendChild(urlImage)
-  newCar.appendChild(modelCar)
-  newCar.appendChild(yearCar)
-  newCar.appendChild(plateCar)
-  newCar.appendChild(colorCar)
+  listCars.appendChild(createTr(event))
 
   formCars.reset()
-  inputImage.focus()
+  event.target.elements.image.focus()
 }, false)

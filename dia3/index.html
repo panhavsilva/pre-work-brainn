@@ -3,35 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" type="text/css" href="./src/style.css" media="screen" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dia 3</title>
   </head>
   <body>
     <form data-js="form">
-      <input type="text" name="name" data-js="name" class="name">
+      <input type="text" name="name" data-js="name">
       <label for="name">Nome</label>
     </form>
     <br/><br/>
 
-    <form data-js="formCars" method="POST">
-      <input placeholder="http://exemplo.com" type="url" name="url" data-js="url">
-      <label for="url">Imagem</label>
+    <form data-js="cars-form" method="POST">
+      <input placeholder="http://exemplo.com" type="url" name="image">
+      <label for="image">Imagem</label>
       <br/> <br/>
 
-      <input type="text" name="model">
-      <label for="model">Marca/ Modelo</label>
+      <input placeholder="Marca Modelo" type="text" name="brand-model">
+      <label for="brand-model">Marca/ Modelo</label>
       <br /> <br />
 
       <input placeholder="2021" type="number" name="year">
       <label for="year">Ano</label>
       <br /> <br />
 
-      <input placeholder="XXX-XXXX" type="text" name="plate-car">
-      <label for="plate-car">Placa</label>
+      <input placeholder="XXX-XXXX" type="text" name="plate">
+      <label for="plate">Placa</label>
       <br /> <br />
 
-      <input type="text" name="color-car">
+      <input type="color" name="color-car">
       <label for="color-car">Cor</label>
       <br /> <br />
 
@@ -42,13 +41,13 @@
       <thead>
         <tr>
           <th>Imagem</th>
-          <th>Marca/ Modelo</th>
+          <th>Marca / Modelo</th>
           <th>Ano</th>
           <th>Placa</th>
           <th>Cor</th>
         </tr>
       </thead>
-      <tbody data-js="list-cars">
+      <tbody data-js="cars-list">
         <tr>
           <td></td>
           <td></td>
