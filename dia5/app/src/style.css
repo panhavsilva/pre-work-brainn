@@ -1,8 +1,42 @@
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 30px;
+}
+
+div, button{
+  margin: 6px;
+}
+
+table {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 30px;
+}
+
+thead, tbody {
+  width: 100%;
+  display: block;
+}
+
+thead tr {
+  border-bottom: solid 1px #444;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+tr {
+  display: grid;
+  padding: 16px;
+  grid-template-columns: repeat(5, 1fr) 60px;
+  color: #777;
+  border-bottom: solid 1px #777;
+}
+
+tr:first-child {
+  padding: 6px;
 }
