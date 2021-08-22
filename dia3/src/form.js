@@ -20,13 +20,12 @@ const colors = [
   { name: 'Rosa', color: '#ff1493' },
 ]
 const form = document.querySelector('[data-js="form"]')
-const newSelect = document.createElement('select')
 form.insertAdjacentHTML(
   'afterend',
   '<div data-js="div-colors" class="div-colors"></div>'
-)
+  )
+const newSelect = document.createElement('select')
 const divColors = document.querySelector('[data-js=div-colors]')
-
 colors.forEach((color) => {
   const newOption = document.createElement('option')
   newOption.value = color.color
@@ -34,11 +33,12 @@ colors.forEach((color) => {
   newOption.setAttribute("data-js", "color")
   newSelect.appendChild(newOption)
 })
-
 newSelect.addEventListener('change', (event) => {
   divColors.innerHTML = ''
 
-  const colorsSelected = [...event.target.selectedOptions].map((color) => color.value)
+  const colorsSelected = [...event.target.selectedOptions].map(
+    (color) => color.value
+  )
   colorsSelected.map((color) => {
     const newDiv = document.createElement('div')
     newDiv.style.backgroundColor = color

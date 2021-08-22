@@ -31,7 +31,7 @@ const createTd = (element) => {
   return newTd
 }
 
-const createTr = (elements) => {
+const createRow = (elements) => {
   const newTr = document.createElement('tr')
   elements.forEach((element) => newTr.appendChild(createTd(element)))
   return newTr
@@ -47,7 +47,7 @@ formCars.addEventListener('submit', (event) => {
     { type: 'text', value: getElements.plate.value },
     { type: 'color', value: getElements['color-car'].value },
   ]
-  listCars.appendChild(createTr(elements))
+  listCars.appendChild(createRow(elements))
 
   formCars.reset()
   getElements.image.focus()
