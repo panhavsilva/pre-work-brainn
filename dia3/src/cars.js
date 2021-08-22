@@ -1,27 +1,54 @@
 const formCars = document.querySelector('[data-js="cars-form"]')
 const listCars = document.querySelector('[data-js="cars-list"]')
 
-const createTd = (event, item) => {
+const createImg = (element) => {
+  const newImg = document.createElement('img')
+  newImg.width = 100
+  newImg.src = element.value
+  return newImg
+}
+
+const createDiv = (element) => {
+  const newDiv = document.createElement('div')
+  newDiv.style.width = '40px'
+  newDiv.style.height = '40px'
+  newDiv.style.borderRadius = '50%'
+  newDiv.style.backgroundColor = element.value
+  return newDiv
+}
+
+const createDivOrImg = (element) => {
+  return element.type === 'image'
+  ? createImg(element)
+  : createDiv(element)
+}
+
+const createTd = (element) => {
   const newTd = document.createElement('td')
-  newTd.innerHTML = String(event.target.elements[item].value)
+  element.type === 'text'
+  ? newTd.innerHTML = element.value
+  : newTd.appendChild(createDivOrImg(element))
   return newTd
 }
 
-const createTr = (event) => {
+const createTr = (elements) => {
   const newTr = document.createElement('tr')
-  newTr.appendChild(createTd(event, 'image'))
-  newTr.appendChild(createTd(event, 'brand-model'))
-  newTr.appendChild(createTd(event, 'year'))
-  newTr.appendChild(createTd(event, 'plate'))
-  newTr.appendChild(createTd(event, 'color-car'))
+  elements.forEach((element) => newTr.appendChild(createTd(element)))
   return newTr
 }
 
 formCars.addEventListener('submit', (event) => {
   event.preventDefault()
-
-  listCars.appendChild(createTr(event))
+  const getElements = event.target.elements
+  const elements = [
+    { type: 'image', value: getElements.image.value},
+    { type: 'text', value: getElements['brand-model'].value },
+    { type: 'text', value: getElements.year.value },
+    { type: 'text', value: getElements.plate.value },
+    { type: 'color', value: getElements['color-car'].value },
+  ]
+  listCars.appendChild(createTr(elements))
 
   formCars.reset()
-  event.target.elements.image.focus()
+  getElements.image.focus()
 }, false)
