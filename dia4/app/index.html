@@ -8,23 +8,47 @@
   </head>
   <body>
     <form data-js="cars-form" method="POST">
-      <input placeholder="http://exemplo.com" type="url" name="image">
+      <input
+        placeholder="http://exemplo.com"
+        type="url"
+        name="image"
+        id="image"
+      >
       <label for="image">Imagem</label>
       <br /> <br />
 
-      <input placeholder="Marca Modelo" type="text" name="model">
+      <input
+        placeholder="Marca Modelo"
+        type="text"
+        id="brand-model"
+        name="brand-model"
+      >
       <label for="brand-model">Marca / Modelo</label>
       <br /> <br />
 
-      <input placeholder="2021" type="number" name="year">
+      <input
+        placeholder="2021"
+        type="number"
+        id="year"
+        name="year"
+      >
       <label for="year">Ano</label>
       <br /> <br />
 
-      <input placeholder="XXX-XXXX" type="text" name="plate">
+      <input
+        placeholder="XXX-XXXX"
+        type="text"
+        id="plate"
+        name="plate"
+      >
       <label for="plate">Placa</label>
       <br /> <br />
 
-      <input type="color" name="color">
+      <input
+        type="color"
+        id="color"
+        name="color"
+      >
       <label for="color">Cor</label>
       <br /> <br />
 
@@ -52,6 +76,6 @@
       </tbody>
     </table>
 
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
