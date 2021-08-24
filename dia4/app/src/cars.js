@@ -1,71 +1,72 @@
-const carsForm = document.querySelector('[data-js="cars-form"]')
-const carsList = document.querySelector('[data-js="cars-list"]')
-import { get, post, del } from './http'
 const url = 'http://localhost:3333/cars'
+import { get, post, del } from './http'
 
-const getFormElement = (event) => (elementName) => {
-  return event.target.elements[elementName]
+const formCars = document.querySelector('[data-js="cars-form"]')
+const listCars = document.querySelector('[data-js="cars-list"]')
+const divMessageError = document.querySelector('[data-js="error"]')
+
+function createImg(element) {
+  const newImg = document.createElement('img')
+  newImg.src = element.value.src
+  newImg.alt = element.value.alt
+  return newImg
 }
 
-const elementTypes = {
-  image: createImage,
-  text: createText,
-  color: createColor,
+function createDiv(element) {
+  const newDiv = document.createElement('div')
+  newDiv.style.backgroundColor = element.value
+  return newDiv
 }
 
-function createImage(data) {
-  const td = document.createElement('td')
-  const img = document.createElement('img')
-  img.src = data.src
-  img.alt = data.alt
-  td.appendChild(img)
-  return td
+function createDivOrImg(element) {
+  return element.type === 'image'
+    ? createImg(element)
+    : createDiv(element)
 }
 
-function createText(value) {
-  const td = document.createElement('td')
-  td.textContent = value
-  return td
-}
+async function handleDelete(event) {
+  const button = event.target
+  const plate = button.dataset.plate
 
-function createColor(value) {
-  const td = document.createElement('td')
-  const div = document.createElement('div')
-  div.style.background = value
-  td.appendChild(div)
-  return td
-}
-
-carsForm.addEventListener('submit', async (e) => {
-  e.preventDefault()
-  const getElement = getFormElement(e)
-  const imageInput = getElement('image')
-
-  const data = {
-    image: getElement('image').value,
-    brandModel: getElement('brand-model').value,
-    year: getElement('year').value,
-    plate: getElement('plate').value,
-    color: getElement('color').value,
-  }
-
-  const result = await post(url, data)
+  const result = await del(url, { plate })
 
   if (result.error) {
-    console.log('deu erro na hora de cadastrar', result.message)
+    divMessageError.classList.toggle('close')
+    divMessageError.innerHTML = result.error
+    console.log('Erro ao deletar veículo!', result.message)
     return
   }
 
-  const noContent = document.querySelector('[data-js="no-content"]')
-  if (noContent) {
-    carsList.removeChild(noContent)
+  const tr = document.querySelector(`tr[data-plate="${plate}"]`)
+  listCars.removeChild(tr)
+  button.removeEventListener('click', handleDelete)
+
+  const allTrs = listCars.querySelector('tr')
+  if (!allTrs) {
+    createNoCarRow()
   }
+}
 
-  createRow(data)
+function noCarRow() {
+  const tr = document.createElement('tr')
+  tr.setAttribute('data-js', 'no-content')
+  const data = [
+    { value: '-' },
+    { value: 'Nenhum' },
+    { value: 'carro' },
+    { value: 'encontrado' },
+    { value: '-' },
+  ]
 
-  carsForm.reset()
-  imageInput.focus()
-})
+  data.forEach((element) => {
+    const newTd = document.createElement('td')
+    newTd.innerHTML = element.value
+
+    return tr.appendChild(newTd)
+  })
+
+  return listCars.appendChild(tr)
+}
 
 function createRow(data) {
   const elements = [
@@ -76,70 +77,77 @@ function createRow(data) {
     { type: 'color', value: data.color }
   ]
 
-  const tr = document.createElement('tr')
-  tr.setAttribute('data-plate', data.plate)
+  const plate = data.plate
+  const newTr = document.createElement('tr')
+  newTr.setAttribute('data-plate', plate)
 
-  elements.forEach(element => {
-    const td = elementTypes[element.type](element.value)
-    tr.appendChild(td)
+  elements.forEach((element) => {
+    const newTd = document.createElement('td')
+    element.type === 'text'
+      ? newTd.innerHTML = element.value
+      : newTd.appendChild(createDivOrImg(element))
+
+    return newTr.appendChild(newTd)
   })
 
-  const td = document.createElement('td')
+  const tdButton = document.createElement('td')
   const button = document.createElement('button')
   button.textContent = 'Excluir'
   button.setAttribute('data-plate', data.plate)
+  button.addEventListener('click', (event) => {
+    handleDelete(event)
+  }, false)
+  tdButton.appendChild(button)
 
-  button.addEventListener('click', handleDelete)
-  td.appendChild(button)
+  newTr.appendChild(tdButton)
 
-  tr.appendChild(td)
-
-  carsList.appendChild(tr)
+  listCars.appendChild(newTr)
 }
 
-async function handleDelete(e) {
-  const button = e.target
-  const plate = button.dataset.plate
+formCars.addEventListener('submit', async (event) => {
+  event.preventDefault()
+  const image = event.target.elements.image
 
-  const result = await del(url, { plate })
+  const data = {
+    image: event.target.elements.image.value,
+    brandModel: event.target.elements['brand-model'].value,
+    year: event.target.elements.year.value,
+    plate: event.target.elements.plate.value,
+    color: event.target.elements.color.value,
+  }
+
+  const result = await post(url, data)
 
   if (result.error) {
-    console.log('erro ao deletar', result.message)
+    divMessageError.classList.toggle('close')
+    divMessageError.innerHTML = result.error
+    console.log('Erro no cadastramento do novo veículo!', result.message)
     return
   }
 
-  const tr = document.querySelector(`tr[data-plate="${plate}"]`)
-  carsList.removeChild(tr)
-  button.removeEventListener('click', handleDelete)
-
-  const allTrs = carsList.querySelector('tr')
-  if (!allTrs) {
-    createNoCarRow()
+  const noContent = document.querySelector('[data-js="no-content"]')
+  if (noContent) {
+    listCars.removeChild(noContent)
   }
-}
 
-function createNoCarRow() {
-  const tr = document.createElement('tr')
-  const td = document.createElement('td')
-  const thsLength = document.querySelectorAll('table th').length
-  td.setAttribute('colspan', thsLength)
-  td.textContent = 'Nenhum carro encontrado'
+  createRow(data)
 
-  tr.setAttribute('data-js', 'no-content')
-  tr.appendChild(td)
-  carsList.appendChild(tr)
-}
+  formCars.reset()
+  image.focus()
+}, false)
 
 async function main() {
   const result = await get(url)
 
   if (result.error) {
+    divMessageError.classList.toggle('close')
+    divMessageError.innerHTML = result.error
     console.log('Erro ao buscar carros', result.message)
     return
   }
 
   if (result.length === 0) {
-    createNoCarRow()
+    noCarRow()
     return
   }
 
